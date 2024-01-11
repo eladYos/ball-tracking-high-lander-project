@@ -4,8 +4,8 @@ const router = express.Router();
 
 type EmojiResponse = string[];
 
-router.get<{}, EmojiResponse>('/', (req, res) => {
-  res.json(['😀', '😳', '🙄']);
+router.post('/random-goal-position', (req, res) => {
+  
 });
 
 export default router;
