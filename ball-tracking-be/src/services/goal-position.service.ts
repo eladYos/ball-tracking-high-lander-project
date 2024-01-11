@@ -3,7 +3,7 @@ import turf from '@turf/turf';
 import gameSessionModel from '../models/game-session.model';
 import GameSession from '../interfaces/GameSession.interface';
 
-class GameSeesionService {
+class GoalPositionService {
   public async createGameSession(boalStartingCoordinates: number[]) : Promise<GameSession> {
     const sessionId = randomUUID();
     
@@ -27,3 +27,5 @@ class GameSeesionService {
     return { userWon: false }
   }
 }
+
+export default GoalPositionService;

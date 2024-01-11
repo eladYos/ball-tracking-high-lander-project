@@ -1,47 +1,30 @@
-import { NextFunction, Response } from 'express';
-import { User } from '@/interfaces/entities/user.interface';
-import { Post } from '@/interfaces/entities/post.interface';
-import { RequestWithUser } from '@/interfaces/auth.interface';
-import PostsService from '@/services/posts.service';
+import express, { Request, Response ,NextFunction } from 'express';
+import GoalPositionService from '../services/goal-position.service';
+const router = express.Router();
 
-import { CreatePostDto } from '@/dtos/createPost.dto';
-import { userInfo } from 'os';
+class GoalPositionController {
 
-class PostsController {
-  public postsService = new PostsService();
+  public goalPositionService = new GoalPositionService();
 
-  public createPost = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public startNewGameSession = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userData: User = req.user;
-      const postData: CreatePostDto = req.body;
-      const newPost: Post = await this.postsService.createPost(userData, postData);
-
-      res.status(201).json({ data: newPost, message: 'created' });
+      const { ballStartCoordinates } = req.body
+      const gameSession = await this.goalPositionService.createGameSession(ballStartCoordinates)
+      res.status(200).json({ data: gameSession });
     } catch (error) {
       next(error);
     }
   };
 
-  public getPost = async (req: RequestWithUser, res: Response, next: NextFunction) => {
+  public checkForWin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { postId } = req.params;
-      const post: Post = await this.postsService.getPostById(postId);
-
-      res.status(200).json({ data: post });
+      const { gameSession, ballCoordinates } = req.body
+      const winStatus = await this.goalPositionService.checkForWin(ballCoordinates, gameSession);
+      res.status(200).json({ data: winStatus });
     } catch (error) {
       next(error);
     }
-  };
-
-  public getFeed = async (req: RequestWithUser, res: Response, next: NextFunction) => {
-    try {
-      const post: Post[] = await this.postsService.getFeed(req.user);
-
-      res.status(200).json({ data: post });
-    } catch (error) {
-      next(error);
-    }
-  };
+  }
 }
 
-export default PostsController;
+export default GoalPositionController;
