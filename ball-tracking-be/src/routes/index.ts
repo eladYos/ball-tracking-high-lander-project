@@ -1,7 +1,7 @@
 import express from 'express';
 
 import MessageResponse from '../interfaces/MessageResponse.interface';
-import emojis from './goal-position';
+import emojis from './goal-position.routes';
 
 const router = express.Router();
 

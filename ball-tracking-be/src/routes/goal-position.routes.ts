@@ -13,10 +13,9 @@ class GoalPositionRoute {
     }
   
     private initializeRoutes() {
-      this.router.post(`${this.path}/new-goal-position`, errorHandler ,this.goalPositionController.getNewRandomGoalPosition);
-      this.router.get(`${this.path}/check-for-win`, this.goalPositionController.getNewRandomGoalPosition);
-      this.router.get(`${this.path}/:postId`, authMiddleware, this.postsController.getPost);
+      this.router.post(`${this.path}/new-goal-position`, errorHandler ,this.goalPositionController.startNewGameSession);
+      this.router.post(`${this.path}/check-for-win`, this.goalPositionController.checkForWin);
     }
   }
 
-export default router;
+export default GoalPositionRoute;

@@ -18,8 +18,8 @@ class GoalPositionController {
 
   public checkForWin = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { gameSession, ballCoordinates } = req.body
-      const winStatus = await this.goalPositionService.checkForWin(ballCoordinates, gameSession);
+      const { ballCoordinates, sessionId } = req.body
+      const winStatus = await this.goalPositionService.checkForWin(ballCoordinates, sessionId);
       res.status(200).json({ data: winStatus });
     } catch (error) {
       next(error);
